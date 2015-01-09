@@ -6,6 +6,7 @@ function addNewMessage($messageText,$pluginName,$pluginData="") {
 
 	global $messageQueueFile;
 
+	//logEntry("MESSAGEQUEUE_PLUGIN: Message File: ".$messageQueueFile);
 
 	logEntry("MESSAGEQUEUE_PLUGIN: Adding message to message queue: ".$messageText." :".$pluginName." :".$pluginData);
 
@@ -56,16 +57,16 @@ for($pluginIndex=0;$pluginIndex<=count($pluginSubscriptions)-1;$pluginIndex++) {
 	
 	logEntry("MessageQueuePlugin: getting new messages for plugin: ".$pluginSubscriptions[$pluginIndex]);
 	
-if(file_exists($messageQueuePluginPath.$pluginSubscriptions[$pluginIndex].".lastRead"))
-        {
-		$pluginLastRead = file_get_contents($messageQueuePluginPath.$pluginSubscriptions[$pluginIndex].".lastRead");
+
+		$pluginLastRead  = urldecode(ReadSettingFromFile("LAST_READ",$pluginSubscriptions[$pluginIndex]));
 		logEntry("plugin ".$pluginSubscriptions[$pluginIndex]." last read: ".$pluginLastRead);
 
-	} else {
-
-		logEntry("no last read messages for plugin: ".$pluginSubscriptions[$pluginIndex]. " getting all messages");
-		
+		if((int)$pluginLastRead == 0 || $pluginLastRead == "") 
+		{
+			logEntry("last read =0 or no last read messages for plugin: ".$pluginSubscriptions[$pluginIndex]. " getting all messages");
+			$pluginLastRead=0;
         }
+        
 		$messagesTemp = file_get_contents($messageQueueFile);
 		
 		$pluginMessageQueue = explode("\n",$messagesTemp);
@@ -85,11 +86,11 @@ if(file_exists($messageQueuePluginPath.$pluginSubscriptions[$pluginIndex].".last
 
 		}
 
-		logEntry("message queue latest: ".$pluginLatest);
-		logEntry("Writing high water mark for plugin: ".$pluginSubscriptions[$pluginIndex].".lastRead");
+		//logEntry("message queue latest: ".$pluginLatest);
+		logEntry("Writing high water mark for plugin: ".$pluginSubscriptions[$pluginIndex]." LAST_READ = ".$pluginLatest);
 
-		file_put_contents($messageQueuePluginPath.$pluginSubscriptions[$pluginIndex].".lastRead",$pluginLatest);
-
+		//file_put_contents($messageQueuePluginPath.$pluginSubscriptions[$pluginIndex].".lastRead",$pluginLatest);
+		WriteSettingToFile("LAST_READ",$pluginLatest,$pluginSubscriptions[$pluginIndex]);
 		//check to see the index of the messages that we need to look at now
 
 		$messageIndex = 0;
@@ -112,23 +113,25 @@ if(file_exists($messageQueuePluginPath.$pluginSubscriptions[$pluginIndex].".last
 				$newMessages[]=$pluginMessageQueue[$messageIndex];
 			} else {
 			
-
-				logEntry("message: ".$pluginMessageQueue[$messageIndex]. " is not newer then last read or is not a subscription");
+				//this is VERY verbose
+				//logEntry("message: ".$pluginMessageQueue[$messageIndex]. " is not newer then last read or is not a subscription");
 			} 
 
 
 		}
 	
-	
-	}
-
-	if(count($newMessages)>0) {
-	
+		if(count($newMessages)>0) {
+		
 			//echo "Plugin: ".$pluginSubscriptions[$pluginIndex]." -----------NEW MESSAGES\n";
 			//echo "New messages found: \n";
 			//print_r($newMessages);
+		
+		}	else {
+			logEntry("No new messages for plugin: ".$pluginSubscriptions[$pluginIndex]);
+		}
+	}
+
 	
-	}	
 
 return $newMessages;
 }
