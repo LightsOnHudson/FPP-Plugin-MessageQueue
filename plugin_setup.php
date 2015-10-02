@@ -43,7 +43,7 @@ if(isset($_POST['submit']))
 }
 $ENABLED = $pluginSettings['ENABLED'];
 
-$MESSAGE_FILE = $pluginSettings['MESSAGE_FILE'];
+$MESSAGE_FILE = urldecode($pluginSettings['MESSAGE_FILE']);
 
 
 if(trim($MESSAGE_FILE) == "") {
