@@ -3,9 +3,34 @@
 
 include_once "/opt/fpp/www/common.php";
 include_once "functions.inc.php";
+include_once 'commonFunctions.inc.php';
 $pluginName = "MessageQueue";
 
 //$DEBUG=true;
+$myPid = getmypid();
+
+$gitURL = "https://github.com/LightsOnHudson/FPP-Plugin-MessageQueue.git";
+
+
+$pluginUpdateFile = $settings['pluginDirectory']."/".$pluginName."/"."pluginUpdate.inc";
+
+
+
+
+
+$logFile = $settings['logDirectory']."/".$pluginName.".log";
+
+
+logEntry("plugin update file: ".$pluginUpdateFile);
+
+
+if(isset($_POST['updatePlugin']))
+{
+	$updateResult = updatePluginFromGitHub($gitURL, $branch="master", $pluginName);
+
+	echo $updateResult."<br/> \n";
+}
+
 
 if(isset($_POST['submit']))
 {
@@ -16,9 +41,9 @@ if(isset($_POST['submit']))
 	
 
 }
-$ENABLED = urldecode(ReadSettingFromFile("ENABLED",$pluginName));
+$ENABLED = $pluginSettings['ENABLED'];
 
-$MESSAGE_FILE = urldecode(ReadSettingFromFile("MESSAGE_FILE",$pluginName));
+$MESSAGE_FILE = $pluginSettings['MESSAGE_FILE'];
 
 
 if(trim($MESSAGE_FILE) == "") {
@@ -82,7 +107,13 @@ echo "<input type=\"text\" name=\"MESSAGE_FILE\" size=\"16\" value=\"".$MESSAGE_
 ?>
 <p/>
 <input id="submit_button" name="submit" type="submit" class="buttons" value="Save Config">
-
+<?
+ if(file_exists($pluginUpdateFile))
+ {
+ 	//echo "updating plugin included";
+	include $pluginUpdateFile;
+}
+?>
 </form>
 </fieldset>
 </div>
