@@ -100,7 +100,7 @@ for($pluginIndex=0;$pluginIndex<=count($pluginSubscriptions)-1;$pluginIndex++) {
 		{
 
 			$messageQueueParts = explode("|",$pluginMessageQueue[$messageIndex]);
-		//print_r($messageQueueParts);
+	//	print_r($messageQueueParts);
 
 	//	print_r($pluginSubscriptions);
 		
@@ -125,6 +125,8 @@ for($pluginIndex=0;$pluginIndex<=count($pluginSubscriptions)-1;$pluginIndex++) {
 			//echo "Plugin: ".$pluginSubscriptions[$pluginIndex]." -----------NEW MESSAGES\n";
 			//echo "New messages found: \n";
 			//print_r($newMessages);
+			logEntry("New Messages found for ".$pluginSubscriptions[$pluginIndex]);
+			//print_r($newMessages);
 		
 		}	else {
 			logEntry("No new messages for plugin: ".$pluginSubscriptions[$pluginIndex]);
@@ -134,5 +136,108 @@ for($pluginIndex=0;$pluginIndex<=count($pluginSubscriptions)-1;$pluginIndex++) {
 	
 
 return $newMessages;
+}
+
+
+
+//only get the messages for a given plugin to help manage on the plugin's page. can pass a last read paramater to get messages SINCE the last read
+//plugins using this functionality = SMS
+//dec 18 2015
+
+function getPluginMessages($subscriptions="", $pluginLastRead=0) {
+
+	global $messageQueuePluginPath,$messageQueueFile;
+
+	if(!file_exists($messageQueueFile))
+	{
+		logEntry("No message queue file exists to process: ".$messageQueueFile);
+		return null;
+	}
+
+	$newMessages=array();
+	//reset the julian to empty
+	$pluginLastRead= 0;
+	$pluginSubscriptions = array();
+
+
+	if($subscriptions == "") {
+		$pluginSubscriptions[] = $pluginName;
+	} else {
+
+		$pluginSubscriptions = explode(",",$subscriptions);
+	}
+
+	//print_r($pluginSubscriptions);
+	//loop through all the subscriptions that this plugin reader needs to do and append all messages!!!
+
+	$i=0;
+	for($pluginIndex=0;$pluginIndex<=count($pluginSubscriptions)-1;$pluginIndex++) {
+
+		logEntry("MessageQueuePlugin: getting new messages for plugin: ".$pluginSubscriptions[$pluginIndex]);
+
+
+	
+		logEntry("plugin ".$pluginSubscriptions[$pluginIndex]." last read: ".$pluginLastRead);
+
+		if((int)$pluginLastRead == 0 || $pluginLastRead == "")
+		{
+			logEntry("last read =0 or no last read messages for plugin: ".$pluginSubscriptions[$pluginIndex]. " getting all messages");
+			$pluginLastRead=0;
+		}
+
+		$messagesTemp = file_get_contents($messageQueueFile);
+
+		$pluginMessageQueue = explode("\n",$messagesTemp);
+		//print_r($pluginMessageQueue);
+
+		//print_r($pluginMessageQueue);
+
+		$pluginLatest ="0";
+		//get the lastest number and write it to the last read file
+
+		$i=0;
+
+		for($i=0;$i<count($pluginMessageQueue)-1;$i++)
+		{
+			//	echo $i."\n";
+			$pluginLatest = substr($pluginMessageQueue[$i],0,10);
+
+		}
+
+		
+
+		$messageIndex = 0;
+
+		for($messageIndex = 0 ;$messageIndex < count($pluginMessageQueue)-1;$messageIndex++)
+
+		{
+
+			$messageQueueParts = explode("|",$pluginMessageQueue[$messageIndex]);
+			//	print_r($messageQueueParts);
+
+			//	print_r($pluginSubscriptions);
+
+			//echo "MessageQueueParts: ".$messageQueueParts[0]. " -- ".$pluginLastRead."\n";
+			//echo "MessageQueueParts: ".$messageQueueParts[2]. " --".$pluginSubscriptions[$pluginIndex]."\n";
+			if($messageQueueParts[0] > $pluginLastRead && strtoupper(trim($messageQueueParts[2])) == strtoupper($pluginSubscriptions[$pluginIndex]))
+			{
+				//echo "we have a new message and subscriptions matches";
+				//add message to new queue
+				$newMessages[]=$pluginMessageQueue[$messageIndex];
+			} else {
+					
+				//this is VERY verbose
+				//logEntry("message: ".$pluginMessageQueue[$messageIndex]. " is not newer then last read or is not a subscription");
+			}
+
+
+		}
+
+		
+	}
+
+
+
+	return $newMessages;
 }
 ?>
