@@ -74,7 +74,7 @@ if(trim($MESSAGE_FILE) == "") {
 
 
 <p>To report a bug, please file it against the MessageQueue plugin project on Git: https://github.com/LightsOnHudson/FPP-Plugin-MessageQueue
-<form method="post" action="http://<? echo $_SERVER['SERVER_NAME']?>/plugin.php?plugin=<?echo $pluginName;?>&page=plugin_setup.php">
+<form method="post" action="http://<? echo $_SERVER['SERVER_ADDR']?>/plugin.php?plugin=<?echo $pluginName;?>&page=plugin_setup.php">
 
 
 <?
