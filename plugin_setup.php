@@ -36,12 +36,12 @@ if(isset($_POST['submit']))
 {
 
 
-	WriteSettingToFile("ENABLED",urlencode($_POST["ENABLED"]),$pluginName);
+	//WriteSettingToFile("ENABLED",urlencode($_POST["ENABLED"]),$pluginName);
 	WriteSettingToFile("MESSAGE_FILE",urlencode($_POST["MESSAGE_FILE"]),$pluginName);
 	
 
 }
-$ENABLED = $pluginSettings['ENABLED'];
+$ENABLED = urldecode($pluginSettings['ENABLED']);
 
 $MESSAGE_FILE = urldecode($pluginSettings['MESSAGE_FILE']);
 
@@ -84,12 +84,12 @@ $reboot=0;
 
 echo "ENABLE PLUGIN: ";
 
-if($ENABLED== 1 || $ENABLED == "on") {
-		echo "<input type=\"checkbox\" checked name=\"ENABLED\"> \n";
-//PrintSettingCheckbox("Radio Station", "ENABLED", $restart = 0, $reboot = 0, "ON", "OFF", $pluginName = $pluginName, $callbackName = "");
-	} else {
-		echo "<input type=\"checkbox\"  name=\"ENABLED\"> \n";
-}
+//if($ENABLED== 1 || $ENABLED == "on") {
+//		echo "<input type=\"checkbox\" checked name=\"ENABLED\"> \n";
+PrintSettingCheckbox("Message Queue", "ENABLED", $restart = 0, $reboot = 0, "ON", "OFF", $pluginName = $pluginName, $callbackName = "");
+//	} else {
+//		echo "<input type=\"checkbox\"  name=\"ENABLED\"> \n";
+//}
 
 
 
@@ -101,7 +101,7 @@ echo "<p/> \n";
 
 echo "Message File Path and Name (/tmp/FPP.MessageQueue) : \n";
   
-echo "<input type=\"text\" name=\"MESSAGE_FILE\" size=\"16\" value=\"".$MESSAGE_FILE."\"> \n";
+echo "<input type=\"text\" name=\"MESSAGE_FILE\" size=\"64\" value=\"".$MESSAGE_FILE."\"> \n";
  
 
 ?>
