@@ -10,6 +10,7 @@ function addNewMessage($messageText,$pluginName,$pluginData="",$messageFile) {
 		$messageFile = $messageQueueFile;
 	}
 	//logEntry("MESSAGEQUEUE_PLUGIN: Message File: ".$messageQueueFile);
+	logEntry("Message queue file: ".$messageFile);
 
 	logEntry("MESSAGEQUEUE_PLUGIN: Adding message to message queue: ".$messageText." :".$pluginName." :".$pluginData);
 
