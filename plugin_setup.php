@@ -5,7 +5,7 @@ include_once "/opt/fpp/www/common.php";
 include_once "functions.inc.php";
 include_once 'commonFunctions.inc.php';
 $pluginName = "MessageQueue";
-
+$pluginVersion ="2.1";
 //$DEBUG=true;
 $myPid = getmypid();
 
@@ -14,7 +14,7 @@ $gitURL = "https://github.com/LightsOnHudson/FPP-Plugin-MessageQueue.git";
 
 $pluginUpdateFile = $settings['pluginDirectory']."/".$pluginName."/"."pluginUpdate.inc";
 
-
+//2.1 - Dec 2 - added dyanimic profnaity file for message queue.
 
 
 
@@ -58,7 +58,7 @@ if(trim($MESSAGE_FILE) == "") {
 
 <div id="MessageQueue" class="settings">
 <fieldset>
-<legend>MessageQueue Support Instructions</legend>
+<legend><?php echo $pluginName." Version: ".$pluginVersion;?> Support Instructions</legend>
 
 <p>Known Issues:
 <ul>
