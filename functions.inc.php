@@ -2,10 +2,13 @@
 
 //add message to queue
 
-function addNewMessage($messageText,$pluginName,$pluginData="") {
+function addNewMessage($messageText,$pluginName,$pluginData="",$messageFile) {
 
 	global $messageQueueFile;
 
+	if($messageFile == "") {
+		$messageFile = $messageQueueFile;
+	}
 	//logEntry("MESSAGEQUEUE_PLUGIN: Message File: ".$messageQueueFile);
 
 	logEntry("MESSAGEQUEUE_PLUGIN: Adding message to message queue: ".$messageText." :".$pluginName." :".$pluginData);
@@ -18,7 +21,7 @@ function addNewMessage($messageText,$pluginName,$pluginData="") {
 
 	//echo "writing message line \r\n".$messageLine;
 	
-	file_put_contents($messageQueueFile, $messageLine, FILE_APPEND | LOCK_EX);
+	file_put_contents($messageFile, $messageLine, FILE_APPEND | LOCK_EX);
 
 }
 
