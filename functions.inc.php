@@ -152,14 +152,16 @@ function getPluginMessages($subscriptions="", $pluginLastRead=0, $messageFile=""
 
 	global $messageQueuePluginPath,$messageQueueFile, $pluginName;
 
-	if($messageFile != "") {
-		$messageQueueFile = $messageFile;
-	}
+	
 	
 	if(!file_exists($messageQueueFile))
 	{
 		logEntry("No message queue file exists to process: ".$messageQueueFile);
 		return null;
+	}
+	
+	if($messageFile != "") {
+		$messageFile = $messageQueueFile;// = $messageFile;
 	}
 
 	$newMessages=array();
@@ -193,7 +195,7 @@ function getPluginMessages($subscriptions="", $pluginLastRead=0, $messageFile=""
 			$pluginLastRead=0;
 		}
 
-		$messagesTemp = file_get_contents($messageQueueFile);
+		$messagesTemp = file_get_contents($messageFile);
 
 		$pluginMessageQueue = explode("\n",$messagesTemp);
 		//print_r($pluginMessageQueue);
