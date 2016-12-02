@@ -164,6 +164,8 @@ function getPluginMessages($subscriptions="", $pluginLastRead=0, $messageFile=""
 		$messageFile = $messageQueueFile;// = $messageFile;
 	}
 
+	logEntry("Getting messages from: ".$messageFile);
+	
 	$newMessages=array();
 	//reset the julian to empty
 	$pluginLastRead= 0;
