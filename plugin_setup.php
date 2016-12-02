@@ -5,7 +5,7 @@ include_once "/opt/fpp/www/common.php";
 include_once "functions.inc.php";
 include_once 'commonFunctions.inc.php';
 $pluginName = "MessageQueue";
-$pluginVersion ="2.1";
+$pluginVersion ="2.2";
 //$DEBUG=true;
 $myPid = getmypid();
 
@@ -13,6 +13,8 @@ $gitURL = "https://github.com/LightsOnHudson/FPP-Plugin-MessageQueue.git";
 
 
 $pluginUpdateFile = $settings['pluginDirectory']."/".$pluginName."/"."pluginUpdate.inc";
+
+//2.2 - Dec 2 - Blacklist functions!
 
 //2.1 - Dec 2 - added dyanimic profnaity file for message queue.
 
