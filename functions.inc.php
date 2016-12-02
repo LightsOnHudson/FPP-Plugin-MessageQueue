@@ -144,10 +144,14 @@ return $newMessages;
 //plugins using this functionality = SMS
 //dec 18 2015
 
-function getPluginMessages($subscriptions="", $pluginLastRead=0) {
+function getPluginMessages($subscriptions="", $pluginLastRead=0, $messageFile="") {
 
 	global $messageQueuePluginPath,$messageQueueFile;
 
+	if($messageFile != "") {
+		$messageQueueFile = $messageFile;
+	}
+	
 	if(!file_exists($messageQueueFile))
 	{
 		logEntry("No message queue file exists to process: ".$messageQueueFile);
