@@ -146,7 +146,7 @@ return $newMessages;
 
 function getPluginMessages($subscriptions="", $pluginLastRead=0, $messageFile="") {
 
-	global $messageQueuePluginPath,$messageQueueFile;
+	global $messageQueuePluginPath,$messageQueueFile, $pluginName;
 
 	if($messageFile != "") {
 		$messageQueueFile = $messageFile;
