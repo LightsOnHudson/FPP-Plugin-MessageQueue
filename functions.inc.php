@@ -161,7 +161,7 @@ function getPluginMessages($subscriptions="", $pluginLastRead=0, $messageFile=""
 		return null;
 	}
 	
-	if($messageFile != "") {
+	if($messageFile == "") {
 		$messageFile = $messageQueueFile;// = $messageFile;
 	}
 
