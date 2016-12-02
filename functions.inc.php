@@ -90,7 +90,7 @@ for($pluginIndex=0;$pluginIndex<=count($pluginSubscriptions)-1;$pluginIndex++) {
 		logEntry("Writing high water mark for plugin: ".$pluginSubscriptions[$pluginIndex]." LAST_READ = ".$pluginLatest);
 
 		//file_put_contents($messageQueuePluginPath.$pluginSubscriptions[$pluginIndex].".lastRead",$pluginLatest);
-		WriteSettingToFile("LAST_READ",$pluginLatest,$pluginSubscriptions[$pluginIndex]);
+		WriteSettingToFile("LAST_READ",urlencode($pluginLatest),$pluginSubscriptions[$pluginIndex]);
 		//check to see the index of the messages that we need to look at now
 
 		$messageIndex = 0;
