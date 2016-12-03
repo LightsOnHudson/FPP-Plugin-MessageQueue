@@ -5,7 +5,7 @@ include_once "/opt/fpp/www/common.php";
 include_once "functions.inc.php";
 include_once 'commonFunctions.inc.php';
 $pluginName = "MessageQueue";
-$pluginVersion ="2.3";
+$pluginVersion ="2.4";
 //$DEBUG=true;
 $myPid = getmypid();
 
@@ -54,6 +54,12 @@ if(isset($_POST['delMessageQueue'])) {
 	$DELETE_CMD = "/bin/rm ".$MESSAGE_FILE;
 
 	exec($DELETE_CMD);
+	
+	//touch a new file
+	
+	$TOUCH_CMD = "/bin/touch ".$messageQueueFile;
+	
+	exec($TOUCH_CMD);
 
 }
 
