@@ -186,7 +186,7 @@ function getPluginMessages($subscriptions="", $pluginLastRead=0, $messageFile=""
 	$i=0;
 	for($pluginIndex=0;$pluginIndex<=count($pluginSubscriptions)-1;$pluginIndex++) {
 
-		logEntry("MessageQueuePlugin: getting new messages for plugin: ".$pluginSubscriptions[$pluginIndex]);
+		logEntry("MessageQueuePlugin: getting messages for plugin: ".$pluginSubscriptions[$pluginIndex]);
 
 
 	

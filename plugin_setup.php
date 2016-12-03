@@ -5,7 +5,7 @@ include_once "/opt/fpp/www/common.php";
 include_once "functions.inc.php";
 include_once 'commonFunctions.inc.php';
 $pluginName = "MessageQueue";
-$pluginVersion ="2.2";
+$pluginVersion ="2.3";
 //$DEBUG=true;
 $myPid = getmypid();
 
@@ -14,6 +14,7 @@ $gitURL = "https://github.com/LightsOnHudson/FPP-Plugin-MessageQueue.git";
 
 $pluginUpdateFile = $settings['pluginDirectory']."/".$pluginName."/"."pluginUpdate.inc";
 
+//2.3 - Dec 2 2016 - ability to delete message queue file
 //2.2 - Dec 2 - Blacklist functions!
 
 //2.1 - Dec 2 - added dyanimic profnaity file for message queue.
@@ -47,6 +48,14 @@ $ENABLED = urldecode($pluginSettings['ENABLED']);
 
 $MESSAGE_FILE = urldecode($pluginSettings['MESSAGE_FILE']);
 
+if(isset($_POST['delMessageQueue'])) {
+	//delete message queue
+	logEntry("Deleting message queue file");
+	$DELETE_CMD = "/bin/rm ".$MESSAGE_FILE;
+
+	exec($DELETE_CMD);
+
+}
 
 if(trim($MESSAGE_FILE) == "") {
 	$MESSAGE_FILE = "/tmp/FPP.MessageQueue";
@@ -104,7 +113,13 @@ echo "<p/> \n";
 echo "Message File Path and Name (/tmp/FPP.MessageQueue) : \n";
   
 echo "<input type=\"text\" name=\"MESSAGE_FILE\" size=\"64\" value=\"".$MESSAGE_FILE."\"> \n";
- 
+echo "<p/> \n";
+echo "<hr/> \n";
+echo "Message file management \n";
+echo "<form name=\"messageManagement\" method=\"post\" action=\"".$_SERVER['PHP_SELF']."?plugin=".$pluginName."&page=plugin_setup.php\"> \n";
+echo "<input type=\"submit\" name=\"delMessageQueue\" value=\"Delete Message Queue\"> \n";
+
+echo "</form> \n";
 
 ?>
 <p/>
