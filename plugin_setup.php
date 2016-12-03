@@ -5,7 +5,7 @@ include_once "/opt/fpp/www/common.php";
 include_once "functions.inc.php";
 include_once 'commonFunctions.inc.php';
 $pluginName = "MessageQueue";
-$pluginVersion ="2.4";
+$pluginVersion ="2.5";
 //$DEBUG=true;
 $myPid = getmypid();
 
@@ -13,7 +13,7 @@ $gitURL = "https://github.com/LightsOnHudson/FPP-Plugin-MessageQueue.git";
 
 
 $pluginUpdateFile = $settings['pluginDirectory']."/".$pluginName."/"."pluginUpdate.inc";
-
+//2.5 - Dec 3 2016 - Fix update button form
 //2.4 - Dec 2 2016 - touch the message queue file
 //2.3 - Dec 2 2016 - ability to delete message queue file
 //2.2 - Dec 2 - Blacklist functions!
@@ -102,17 +102,10 @@ $reboot=0;
 
 echo "ENABLE PLUGIN: ";
 
-//if($ENABLED== 1 || $ENABLED == "on") {
-//		echo "<input type=\"checkbox\" checked name=\"ENABLED\"> \n";
+
 PrintSettingCheckbox("Message Queue", "ENABLED", $restart = 0, $reboot = 0, "ON", "OFF", $pluginName = $pluginName, $callbackName = "");
-//	} else {
-//		echo "<input type=\"checkbox\"  name=\"ENABLED\"> \n";
-//}
 
 
-
-
-echo "<p/> \n";
 
 
 echo "<p/> \n";
@@ -126,7 +119,7 @@ echo "Message file management \n";
 echo "<form name=\"messageManagement\" method=\"post\" action=\"".$_SERVER['PHP_SELF']."?plugin=".$pluginName."&page=plugin_setup.php\"> \n";
 echo "<input type=\"submit\" name=\"delMessageQueue\" value=\"Delete Message Queue\"> \n";
 
-echo "</form> \n";
+
 
 ?>
 <p/>
@@ -137,6 +130,8 @@ echo "</form> \n";
  	//echo "updating plugin included";
 	include $pluginUpdateFile;
 }
+
+echo "</form> \n";
 ?>
 </form>
 </fieldset>
