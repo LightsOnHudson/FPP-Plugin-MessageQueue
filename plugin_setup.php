@@ -14,6 +14,7 @@ $gitURL = "https://github.com/LightsOnHudson/FPP-Plugin-MessageQueue.git";
 
 $pluginUpdateFile = $settings['pluginDirectory']."/".$pluginName."/"."pluginUpdate.inc";
 
+//2.4 - Dec 2 2016 - touch the message queue file
 //2.3 - Dec 2 2016 - ability to delete message queue file
 //2.2 - Dec 2 - Blacklist functions!
 
@@ -57,7 +58,7 @@ if(isset($_POST['delMessageQueue'])) {
 	
 	//touch a new file
 	
-	$TOUCH_CMD = "/bin/touch ".$messageQueueFile;
+	$TOUCH_CMD = "/bin/touch ".$MESSAGE_FILE;
 	
 	exec($TOUCH_CMD);
 
