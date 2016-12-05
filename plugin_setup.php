@@ -49,6 +49,13 @@ $ENABLED = urldecode($pluginSettings['ENABLED']);
 
 $MESSAGE_FILE = urldecode($pluginSettings['MESSAGE_FILE']);
 
+if(trim($MESSAGE_FILE) == "") {
+	$MESSAGE_FILE = "/tmp/FPP.MessageQueue";
+	//write the default on plugin load if it does not exist!
+	
+	WriteSettingToFile("MESSAGE_FILE",urlencode($MESSAGE_FILE),$pluginName);
+}
+
 if(isset($_POST['delMessageQueue'])) {
 	//delete message queue
 	logEntry("Deleting message queue file");
@@ -64,9 +71,7 @@ if(isset($_POST['delMessageQueue'])) {
 
 }
 
-if(trim($MESSAGE_FILE) == "") {
-	$MESSAGE_FILE = "/tmp/FPP.MessageQueue";
-}
+
 
 ?>
 
