@@ -91,7 +91,16 @@ if(isset($_POST['delMessageQueue'])) {
 <p>Configuration:
 <ul>
 <li>There is no configuration necessary. This plugin supports/allows plugins to communicate and share messages</li>
-<li>Current Plugins utilizing MessageQueue: SMS Control, Matrix, SportsTicker</li>
+<li>Current Plugins utilizing MessageQueue:</li>
+<li>	SMS Control</li>
+<li>	Matrix </li>
+<li>	SportsTicker</li>
+<li>	Weather</li>
+<li>	Election</li>
+<li>	Stock Ticker</li>
+<li>	RDS To Matrix</li>
+<li>	Event Date</li>
+
 </ul>
 <p>
 
