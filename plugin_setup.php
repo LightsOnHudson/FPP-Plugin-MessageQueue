@@ -1,5 +1,14 @@
 <?php
 //$DEBUG=true;
+//3.0 - Dec 27 2016 - Convert to SQLLITE3, write version to config file
+
+//2.5 - Dec 3 2016 - Fix update button form
+//2.4 - Dec 2 2016 - touch the message queue file
+//2.3 - Dec 2 2016 - ability to delete message queue file
+//2.2 - Dec 2 - Blacklist functions!
+
+//2.1 - Dec 2 - added dyanimic profnaity file for message queue.
+
 
 include_once "/opt/fpp/www/common.php";
 include_once "functions.inc.php";
@@ -13,12 +22,11 @@ $gitURL = "https://github.com/LightsOnHudson/FPP-Plugin-MessageQueue.git";
 
 
 $pluginUpdateFile = $settings['pluginDirectory']."/".$pluginName."/"."pluginUpdate.inc";
-//2.5 - Dec 3 2016 - Fix update button form
-//2.4 - Dec 2 2016 - touch the message queue file
-//2.3 - Dec 2 2016 - ability to delete message queue file
-//2.2 - Dec 2 - Blacklist functions!
 
-//2.1 - Dec 2 - added dyanimic profnaity file for message queue.
+//write version number!
+WriteSettingToFile("VERSION",urlencode($pluginVersion),$pluginName);
+
+
 
 
 
@@ -39,21 +47,34 @@ if(isset($_POST['updatePlugin']))
 if(isset($_POST['submit']))
 {
 
-
-	//WriteSettingToFile("ENABLED",urlencode($_POST["ENABLED"]),$pluginName);
 	WriteSettingToFile("MESSAGE_FILE",urlencode($_POST["MESSAGE_FILE"]),$pluginName);
 	
-
 }
+
+sleep(1);
+
+$pluginConfigFile = $settings['configDirectory'] . "/plugin." .$pluginName;
+if (file_exists($pluginConfigFile))
+	$pluginSettings = parse_ini_file($pluginConfigFile);
+
 $ENABLED = urldecode($pluginSettings['ENABLED']);
 
 $MESSAGE_FILE = urldecode($pluginSettings['MESSAGE_FILE']);
 
+//set a default message queue file
 if(trim($MESSAGE_FILE) == "") {
-	$MESSAGE_FILE = "/tmp/FPP.MessageQueue";
-	//write the default on plugin load if it does not exist!
+	$MESSAGE_FILE = "/tmp/FPP.MessageQueue.db";
+	WriteSettingToFile("MESSAGE_FILE",urlencode($_POST["MESSAGE_FILE"]),$pluginName);
+}
+
+$db = new SQLite3($MESSAGE_FILE) or die('Unable to open database');
+
+//logEntry("DB: ".$db);
+
+
+if($db != null) {
 	
-	WriteSettingToFile("MESSAGE_FILE",urlencode($MESSAGE_FILE),$pluginName);
+	createTables();
 }
 
 if(isset($_POST['delMessageQueue'])) {
@@ -65,9 +86,14 @@ if(isset($_POST['delMessageQueue'])) {
 	
 	//touch a new file
 	
-	$TOUCH_CMD = "/bin/touch ".$MESSAGE_FILE;
+//	$TOUCH_CMD = "/bin/touch ".$MESSAGE_FILE;
 	
-	exec($TOUCH_CMD);
+//	exec($TOUCH_CMD);
+	//create new DB
+	$createNewDB_CMD = "/usr/bin/sqlite3 ".$MESSAGE_FILE;
+	
+	exec($createNewDB_CMD);
+	
 
 }
 
@@ -111,6 +137,8 @@ if(isset($_POST['delMessageQueue'])) {
 
 <?
 
+print_r($settings);
+
 $restart=0;
 $reboot=0;
 
@@ -124,12 +152,12 @@ PrintSettingCheckbox("Message Queue", "ENABLED", $restart = 0, $reboot = 0, "ON"
 
 echo "<p/> \n";
 
-echo "Message File Path and Name (/tmp/FPP.MessageQueue) : \n";
+echo "Message File Path and Name (/tmp/FPP.MessageQueue.db) : \n";
   
 echo "<input type=\"text\" name=\"MESSAGE_FILE\" size=\"64\" value=\"".$MESSAGE_FILE."\"> \n";
 echo "<p/> \n";
 echo "<hr/> \n";
-echo "Message file management \n";
+echo "Message file database \n";
 echo "<form name=\"messageManagement\" method=\"post\" action=\"".$_SERVER['PHP_SELF']."?plugin=".$pluginName."&page=plugin_setup.php\"> \n";
 echo "<input type=\"submit\" name=\"delMessageQueue\" value=\"Delete Message Queue\"> \n";
 
