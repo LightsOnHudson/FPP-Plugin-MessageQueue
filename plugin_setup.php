@@ -137,6 +137,7 @@ if(isset($_POST['delMessageQueue'])) {
 
 <?
 
+if($DEBUG)
 print_r($settings);
 
 $restart=0;

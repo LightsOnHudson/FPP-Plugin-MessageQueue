@@ -81,7 +81,9 @@ function getNewPluginMessages($subscriptions="") {
 	
 	$pluginVersion = $TwilioVersion;
 	$pluginVersion = $MatrixMessageVersion;
+	$pluginVersion = "2.0";
 	
+	logEntry("Plugin version: ".$pluginVersion);
 	
 	switch ($pluginVersion) {
 		
@@ -101,7 +103,9 @@ function getNewPluginMessages($subscriptions="") {
 			$newMessages=array();
 			$pluginLastRead= 0;
 			foreach($pluginSubscriptions as $pluginName) {
+				//require("/opt/fpp/www/common.php");
 				$DB_NAME = $settings['configDirectory']."/FPP.".$pluginName.".db";
+				$DB_NAME = "/home/fpp/media/config"."/FPP.".$pluginName.".db";
 				
 				logEntry("MESSAGE QUEUE: getting NEW ".$pluginName." messages from ".$pluginName." ".$DB_NAME." DB");
 				
