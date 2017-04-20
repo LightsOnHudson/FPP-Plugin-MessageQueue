@@ -35,7 +35,7 @@ function addNewMessage($messageText,$pluginName,$pluginData="",$messageFile) {
 	if($pluginName == "TwilioControl") {
 		$pluginVersion = $TwilioVersion;
 	} elseif($pluginName == "Weather") {
-		$pluginVersion = $WeatherVersion;
+		$pluginVersion = "2.0";
 	}
 
 	if($messageFile == "") {
