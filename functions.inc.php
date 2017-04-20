@@ -30,10 +30,12 @@ function insertMessage($DBName, $table, $message, $pluginName, $pluginData) {
 
 function addNewMessage($messageText,$pluginName,$pluginData="",$messageFile) {
 
-	global $messageQueueFile, $TwilioVersion, $settings;
+	global $messageQueueFile, $TwilioVersion, $settings, $WeatherVersion;
 	
 	if($pluginName == "TwilioControl") {
 		$pluginVersion = $TwilioVersion;
+	} elseif($pluginName == "Weather") {
+		$pluginVersion = $WeatherVersion;
 	}
 
 	if($messageFile == "") {
