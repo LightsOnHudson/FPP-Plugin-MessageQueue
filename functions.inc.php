@@ -38,6 +38,7 @@ function addNewMessage($messageText,$pluginName,$pluginData="",$messageFile) {
 		$pluginVersion = "2.0";
 	}
 
+	logEntry("Message file passed: ".$messageFile);
 	if($messageFile == "") {
 		$messageFile = $messageQueueFile;
 	}

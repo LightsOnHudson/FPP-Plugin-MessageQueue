@@ -63,7 +63,7 @@ $MESSAGE_FILE = urldecode($pluginSettings['MESSAGE_FILE']);
 
 //set a default message queue file
 if(trim($MESSAGE_FILE) == "") {
-	$MESSAGE_FILE = "/tmp/FPP.MessageQueue.db";
+	$MESSAGE_FILE = "/home/fpp/media/config/FPP.".$pluginName.".db";
 	WriteSettingToFile("MESSAGE_FILE",urlencode($_POST["MESSAGE_FILE"]),$pluginName);
 }
 
