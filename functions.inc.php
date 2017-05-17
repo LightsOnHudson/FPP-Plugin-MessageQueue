@@ -7,7 +7,7 @@ function createTables() {
 
 	$createQuery = "CREATE TABLE IF NOT EXISTS messages (messageID INTEGER PRIMARY KEY AUTOINCREMENT, timestamp int(16) NOT NULL, message varchar(255), pluginName varchar(64), pluginData varchar(64));";
 
-	logEntry("CREATING Messages Table for plugin: ".$createQuery);
+	logEntry("CREATING Messages Table for MessageQueue: ".$createQuery);
 
 	$db->exec($createQuery) or die('Create Table Failed');
 
@@ -35,6 +35,8 @@ function addNewMessage($messageText,$pluginName,$pluginData="",$messageFile) {
 	if($pluginName == "TwilioControl") {
 		$pluginVersion = $TwilioVersion;
 	} elseif($pluginName == "Weather") {
+		$pluginVersion = "2.0";
+	} elseif($pluginName == "SportsTicker") {
 		$pluginVersion = "2.0";
 	}
 
