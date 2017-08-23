@@ -19,7 +19,7 @@ function insertMessage($DBName, $table, $message, $pluginName, $pluginData) {
 
 	$db = new SQLite3($DBName) or die('Unable to open database');
 	
-	$insertQuery = "INSERT INTO ".$table." (timestamp, message, pluginName, pluginData) VALUES ('".time()."','".urlencode($message)."','".$pluginName."','".$pluginData."');";
+	$insertQuery = "INSERT INTO ".$table." (timestamp, message, pluginName, pluginData) VALUES ('".time()."','".urlencode($message)."','".$pluginName."','".urlencode($pluginData)."');";
 
 	logEntry("MESSAGEQUEUE_PLUGIN: INSERT query string: ".$insertQuery);
 	$db->exec($insertQuery) or die('could not insert into database');
