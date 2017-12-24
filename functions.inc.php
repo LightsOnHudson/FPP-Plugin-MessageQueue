@@ -3,11 +3,11 @@
 
 
 function createTables() {
-	global $db;
+	global $db, $Plugin_DBName;
 
 	$createQuery = "CREATE TABLE IF NOT EXISTS messages (messageID INTEGER PRIMARY KEY AUTOINCREMENT, timestamp int(16) NOT NULL, message varchar(255), pluginName varchar(64), pluginData varchar(64));";
 
-	logEntry("CREATING Messages Table for MessageQueue: ".$createQuery);
+	logEntry("CREATING Messages in db: ".$Plugin_DBName.": ".$createQuery);
 
 	$db->exec($createQuery) or die('Create Table Failed');
 
