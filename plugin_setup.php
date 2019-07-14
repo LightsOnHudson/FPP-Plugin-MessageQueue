@@ -13,8 +13,9 @@
 include_once "/opt/fpp/www/common.php";
 include_once "functions.inc.php";
 include_once 'commonFunctions.inc.php';
-$pluginName = "MessageQueue";
-$pluginVersion ="2.5";
+//$pluginName = "MessageQueue";
+$pluginName = basename(dirname(__FILE__));  //pjd 7-14-2019   added per dkulp
+$pluginVersion ="2.7";
 //$DEBUG=true;
 $myPid = getmypid();
 
