@@ -1,7 +1,6 @@
 <?php
 //$DEBUG=true;
 //3.0 - Dec 27 2016 - Convert to SQLLITE3, write version to config file
-
 //2.5 - Dec 3 2016 - Fix update button form
 //2.4 - Dec 2 2016 - touch the message queue file
 //2.3 - Dec 2 2016 - ability to delete message queue file
@@ -79,8 +78,8 @@ if($db != null) {
 }
 
 if(isset($_POST['delMessageQueue'])) {
-	//delete message queue
-	logEntry("Deleting message queue file");
+	//delete message queue database
+	logEntry("Deleting message queue db file");
 	$DELETE_CMD = "/bin/rm ".$MESSAGE_FILE;
 
 	exec($DELETE_CMD);
@@ -150,18 +149,16 @@ echo "ENABLE PLUGIN: ";
 PrintSettingCheckbox("Message Queue", "ENABLED", $restart = 0, $reboot = 0, "ON", "OFF", $pluginName = $pluginName, $callbackName = "");
 
 
-
-
 echo "<p/> \n";
 
-echo "Message File Path and Name (/tmp/FPP.MessageQueue.db) : \n";
+echo "Message File Path and Name (/home/fpp/media/config/FPP.FPP-Plugin-MessageQueue.db) : \n";
   
 echo "<input type=\"text\" name=\"MESSAGE_FILE\" size=\"64\" value=\"".$MESSAGE_FILE."\"> \n";
 echo "<p/> \n";
 echo "<hr/> \n";
 echo "Message file database \n";
 echo "<form name=\"messageManagement\" method=\"post\" action=\"".$_SERVER['PHP_SELF']."?plugin=".$pluginName."&page=plugin_setup.php\"> \n";
-echo "<input type=\"submit\" name=\"delMessageQueue\" value=\"Delete Message Queue\"> \n";
+echo "<input type=\"submit\" name=\"delMessageQueue\" value=\"Delete Message Queue DB\"> \n";
 
 
 
