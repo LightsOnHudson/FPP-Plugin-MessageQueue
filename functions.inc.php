@@ -1,7 +1,6 @@
 <?php
 //create message tables
 
-
 function createTables() {
 	global $db, $Plugin_DBName;
 
@@ -16,7 +15,8 @@ function createTables() {
 
 function insertMessage($DBName, $table, $message, $pluginName, $pluginData) {
 	global $db;
-
+	logEntry("MESSAGEQUEUE_PLUGIN: DBName: ".$DBName);
+	
 	$db = new SQLite3($DBName) or die('Unable to open database');
 	
 	$insertQuery = "INSERT INTO ".$table." (timestamp, message, pluginName, pluginData) VALUES ('".time()."','".urlencode($message)."','".$pluginName."','".urlencode($pluginData)."');";
@@ -38,7 +38,9 @@ function addNewMessage($messageText,$pluginName,$pluginData="",$messageFile) {
 		$pluginVersion = "2.0";
 	} elseif($pluginName == "SportsTicker") {
 		$pluginVersion = "2.0";
-	}
+	} elseif($pluginName == "FPP-Plugin-EventDate") {		// pjd 7/15/2019 added as temp workaround
+		$pluginVersion = "2.0";
+	}	
 
 	logEntry("Message file passed: ".$messageFile);
 	if($messageFile == "") {
@@ -46,20 +48,19 @@ function addNewMessage($messageText,$pluginName,$pluginData="",$messageFile) {
 	}
 	//logEntry("MESSAGEQUEUE_PLUGIN: Message File: ".$messageQueueFile);
 	logEntry("MESSAGEQUEUE_PLUGIN: Message queue file: ".$messageFile);
-
 	logEntry("MESSAGEQUEUE_PLUGIN: Adding message to message queue: ".$messageText." :".$pluginName." :".$pluginData);
-
+	logEntry("MESSAGEQUEUE_PLUGIN: Plugin Version: ".$pluginVersion);		//pjd 7/15/2019
 
 	switch ($pluginVersion) {
 		
 		case "2.0":
-			
+		logEntry("MESSAGEQUEUE_PLUGIN: Case 2.0");		//pjd 7/15/2019	
 			insertMessage($messageFile, "messages", $messageText, $pluginName, $pluginData);
 			
 			break;
 			
 		default;
-		
+		logEntry("MESSAGEQUEUE_PLUGIN: Case default");		//pjd 7/15/2019	
 			$messageLine = "";
 			
 			$messageLine = time()."| ".urlencode($messageText) . " | ".$pluginName. " | ".$pluginData."\n";
