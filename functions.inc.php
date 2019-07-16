@@ -34,7 +34,7 @@ function addNewMessage($messageText,$pluginName,$pluginData="",$messageFile) {
 	
 	if($pluginName == "TwilioControl") {
 		$pluginVersion = $TwilioVersion;
-	} elseif($pluginName == "Weather") {
+	} elseif($pluginName == "FPP-Plugin-Weather") {
 		$pluginVersion = "2.0";
 	} elseif($pluginName == "SportsTicker") {
 		$pluginVersion = "2.0";
